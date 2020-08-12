@@ -24,7 +24,7 @@ class ElementWrapper {
             range.setStartAfter(this.root.lastChild);
             range.setEndAfter(this.root.lastChild);
             // range.setStart(this.root,this.root.children.length-1);
-            // range.setEnd(this.root,this.root.children.length);
+            // range.setEnd(this.root,this.root.children.length-1);
         } else {
             range.setStart(this.root,0);
             range.setEnd(this.root,0);
@@ -103,7 +103,12 @@ export class Component {
     }
 
     update (){
-        // this.range.deleteContents();
+        let placeholder = document.createComment("placeholder");
+        let range = document.createRange();
+        range.setStart(this.range.endContainer,this.range.endOffset);
+        range.setEnd(this.range.endContainer,this.range.endOffset);
+        range.insertNode(placeholder);
+        this.range.deleteContents();
         let vdom = this.render();
         vdom.mountTo(this.range);
     }
@@ -151,7 +156,7 @@ export const ToyReact = {
             range.setStartAfter(element.lastChild);
             range.setEndAfter(element.lastChild);
             // range.setStart(element,element.children.length-1);
-            // range.setEnd(element,element.children.length);
+            // range.setEnd(element,element.children.length-1);
         } else {
             range.setStart(element,0);
             range.setEnd(element,0);
